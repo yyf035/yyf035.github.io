@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>庆余年 - 首页</title>
+    <!-- 保留你的导航样式文件 nav.css -->
+    <link rel="stylesheet" href="nav.css">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            list-style: none;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        body {
+            height: 100vh;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+            background: rgb(0,10,20);
+            /* 留出顶部空间，不被导航盖住 */
+            margin-top:-60px;
+        }
+        /* 导航父容器，作为负边距参照 */
+        .庆余年 {
+            position: relative;
+            width: 100%;
+        }
+        /* 导航负边距核心样式，放入nav.css也可以 */
+        .nav {
+            display: inline-flex;
+            position: relative;
+            overflow: hidden;
+            background-color: rgb(66, 64, 64);
+            padding: 0 10px;
+            border-radius: 40px;
+            box-shadow: 0 10px 20px rgba(159, 162, 177, .8);
+            width: 800px;
+            opacity: 0.6;
+            z-index: 999;
+            /* 负边距向上飘到画布上方 */
+            margin: 20px auto -120px;
+            /* 水平居中 */
+            left: 50%;
+            transform: translateX(-50%);
+            position: relative;
+        }
+        .nav-item {
+            color: #83818c;
+            padding: 20px;
+            text-decoration: none;
+            transition: 0.3s;
+            margin: 0 26px;
+            z-index: 1;
+            font-family: 'Roboto Condensed', sans-serif;
+            font-weight: 700;
+            position: relative;
+            font-size: 18px;
+        }
+        .nav-item:before {
+            content: "";
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: #0e2050;
+            border-radius: 8px 8px 0 0;
+            opacity: 0;
+            transition: 0.3s;
+        }
+        .nav-item:not(.is-active):hover:before {
+            opacity: 1;
+            bottom: 0;
+        }
+        .nav-item:not(.is-active):hover {
+            color: #fff;
+        }
+        .nav-item.is-active {
+            color: #fff;
+        }
+        .nav-indicator {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 5px;
+            transition: 0.4s;
+            z-index: 1;
+            border-radius: 8px 8px 0 0;
+            background-color: #0e2050;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航父容器 -->
+    <div class="庆余年">
+        <nav class="nav">
+            <a href="index.html" class="nav-item is-active">首页</a>
+            <a href="jieshao.html" class="nav-item">介绍</a>
+            <a href="zhanjiejs.html" class="nav-item">章节介绍</a>
+            <a href="renwujs.html" class="nav-item">人物介绍</a>
+            <a href="chaorpduan.html" class="nav-item">登录</a>
+            <span class="nav-indicator"></span>
+        </nav>
+    </div>
+
+    <canvas id="space"></canvas>
+
+<script>
+const canvas = document.getElementById("space");
+const c = canvas.getContext("2d");
+const raf = window.requestAnimationFrame;
+
+// 配置参数
+const cfg = {
+    numStars: 10000,        // 星星数量
+    focalLength: canvas.width * 2, // 焦距，影响3D透视
+    mouseInfluence: 0.2,    // 鼠标视角偏移系数
+    speed: 1,               // 穿梭基础速度
+    maxStarSize: 5,         // 星星最大绘制半径
+    fadeStartZ: 200,        // 开始淡出的Z距离
+    fadeEndZ: 100           // 完全消失的Z距离
+};
+
+let stars = [], cx, cy, mx = 0, my = 0;
+
+// 初始化所有星星数据
+function init() {
+    cx = canvas.width / 2;
+    cy = canvas.height / 2;
+    stars = Array.from({ length: cfg.numStars }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        z: Math.random() * canvas.width,
+        o: '0.' + Math.floor(Math.random() * 99) + 1, // 基础透明度
+        px: 0, // 上一帧坐标
+        py: 0,
+        pz: 0
+    }));
+}
+
+// 3D透视投影公式：世界坐标转屏幕坐标
+function pos(x, y, z) {
+    const scale = cfg.focalLength / z;
+    return {
+        x: (x - cx) * scale + cx,
+        y: (y - cy) * scale + cy,
+        size: Math.min(cfg.maxStarSize, scale)
+    };
+}
+
+// 根据Z轴计算星星透明度，实现远近淡入淡出
+function alpha(z) {
+    if (z <= cfg.fadeStartZ) {
+        // 线性插值淡出
+        return Math.max(0, Math.min(1, (z - cfg.fadeEndZ) / (cfg.fadeStartZ - cfg.fadeEndZ)));
+    }
+    return 1;
+}
+
+// 更新每颗星星Z轴位置，模拟向前穿梭
+function move() {
+    stars.forEach(star => {
+        // 保存上一帧坐标，用于绘制拖尾
+        [star.px, star.py, star.pz] = [star.x, star.y, star.z];
+        // 向镜头靠近（Z减小）
+        star.z -= cfg.speed;
+        // 鼠标偏移扰动星空位置
+        star.x += mx * cfg.mouseInfluence / star.z;
+        star.y += my * cfg.mouseInfluence / star.z;
+        // 星星飞出视野，重置到远处
+        if (star.z <= cfg.fadeEndZ) {
+            star.z = canvas.width;
+            star.x = Math.random() * canvas.width;
+            star.y = Math.random() * canvas.height;
+            [star.px, star.py, star.pz] = [star.x, star.y, star.z];
+        }
+    });
+}
+
+// 渲染画布：背景、拖尾、星星本体
+function draw() {
+    // 窗口尺寸自适应
+    if (canvas.width !== window.innerWidth || canvas.height !== window.innerHeight) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        init();
+    }
+    // 填充深色星空背景
+    c.fillStyle = "rgb(0,10,20)";
+    c.fillRect(0, 0, canvas.width, canvas.height);
+
+    stars.forEach(star => {
+        const curr = pos(star.x, star.y, star.z);
+        const a = alpha(star.z);
+        // 高速模式绘制流星拖尾
+        if (cfg.speed > 10) {
+            const prev = pos(star.px, star.py, star.pz);
+            c.beginPath();
+            c.moveTo(prev.x, prev.y);
+            c.lineTo(curr.x, curr.y);
+            c.strokeStyle = `rgba(255, 255, 255, ${0.3 * a})`;
+            c.lineWidth = curr.size;
+            c.stroke();
+        }
+        // 绘制星星圆点
+        c.beginPath();
+        c.arc(curr.x, curr.y, curr.size, 0, Math.PI * 2);
+        c.fillStyle = `rgba(255, 255, 255, ${parseFloat(star.o) * a})`;
+        c.fill();
+    });
+}
+
+// 动画循环
+function loop() {
+    raf(loop);
+    move();
+    draw();
+}
+
+// 鼠标移动监听
+document.addEventListener('mousemove', e => {
+    mx = e.clientX - cx;
+    my = e.clientY - cy;
+});
+// 滚轮调节穿梭速度
+document.addEventListener('wheel', e => {
+    cfg.speed = Math.max(0.1, Math.min(50, cfg.speed - e.deltaY * 0.01));
+});
+
+// 导航指示器JS（页面切换下划线跟随）
+const navItems = document.querySelectorAll('.nav-item');
+const indicator = document.querySelector('.nav-indicator');
+function setIndicator(item) {
+    indicator.style.width = `${item.offsetWidth}px`;
+    indicator.style.left = `${item.offsetLeft}px`;
+}
+const activeItem = document.querySelector('.nav-item.is-active');
+setIndicator(activeItem);
+navItems.forEach(item => {
+    item.addEventListener('click', () => setIndicator(item));
+})
+
+// 启动动画
+init();
+loop();
+</script>
+</body>
+</html>

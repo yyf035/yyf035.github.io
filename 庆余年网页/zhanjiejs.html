@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>庆余年第二季</title>
+    <link rel="stylesheet" href="nav3.css">
+    <link rel="stylesheet" href="zhanjiejs.css">
+    <!-- 在 HTML 的 <head> 里引入字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+QingKe+HuangYou&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        .shell {
+            width: 100%;
+            position: relative;
+            padding: 80px 0;
+            transition: 0.3s ease 0s;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+        .shell:before {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(99, 99, 99, 0.8);
+            content: "";
+        }
+        .header {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 80px;
+            position: relative;
+        }
+        .title {
+            color: #fff;
+            font-size: 46px;
+            font-weight: normal;
+            margin: 0;
+        }
+        .subtitle {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 16px;
+            letter-spacing: 5px;
+            margin: 10px 0 0 0;
+            font-weight: normal;
+        }
+        .timeline {
+            display: flex;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            flex-direction: column;
+            max-width: 700px;
+            position: relative;
+        }
+        .timeline:before {
+            position: absolute;
+            left: 50%;
+            width: 2px;
+            height: 100%;
+            margin-left: -1px;
+            content: "";
+            background: rgba(255, 255, 255, 0.07);
+        }
+        .item {
+            padding: 40px 0;
+            opacity: 0.3;
+            filter: blur(2px);
+            transition: 0.5s;
+            box-sizing: border-box;
+            width: calc(50% - 40px);
+            display: flex;
+            position: relative;
+            transform: translateY(-80px);
+        }
+        .item:before {
+            content: attr(data-text);
+            letter-spacing: 3px;
+            width: 100%;
+            position: absolute;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 13px;
+            border-left: 2px solid rgba(255, 255, 255, 0.5);
+            top: 70%;
+            margin-top: -5px;
+            padding-left: 15px;
+            opacity: 0;
+            right: calc(-100% - 56px);
+            font: 900 20px '';
+            letter-spacing: 5px;
+        }
+        .item:nth-child(even) {
+            align-self: flex-end;
+        }
+        .item:nth-child(even):before {
+            right: auto;
+            text-align: right;
+            left: calc(-100% - 56px);
+            padding-left: 0;
+            border-left: none;
+            border-right: 2px solid rgba(255, 255, 255, 0.5);
+            padding-right: 15px;
+        }
+        .item--active {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0px);
+        }
+        .item--active:before {
+            top: 50%;
+            transition: 0.3s all 0.2s;
+            opacity: 1;
+        }
+        .item--active .content-title {
+            margin: -50px 0 20px 0;
+        }
+        .img {
+            max-width: 100%;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.4);
+        }
+        .content-title {
+            font-weight: normal;
+            font-size: 30px;
+            margin: -10px 0 0 0;
+            transition: 0.4s;
+            padding: 0 10px;
+            box-sizing: border-box;
+            color: #b3c20f;
+            font-family: "ZCOOL XiaoWei", "SimSun", serif;
+        }
+        .content-desc {
+            margin: 0;
+            font-size: 15px;
+            box-sizing: border-box;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+            text-indent: 2em;
+        }
+        .footer {
+            padding: 95px 0;
+            text-align: center;
+        }
+        .footer a {
+            color: #999;
+            display: inline-block;
+        }
+        /* 移动端适配 */
+        @media only screen and (max-width: 767px) {
+            .item {
+                align-self: baseline !important;
+                width: 100%;
+                padding: 0 30px 150px 80px;
+            }
+            .item:before {
+                left: 10px !important;
+                padding: 0 !important;
+                top: 50px;
+                text-align: center !important;
+                width: 60px;
+                border: none !important;
+            }
+            .item:last-child {
+                padding-bottom: 40px;
+            }
+            .timeline:before {
+                left: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="庆余年">
+        <div class="shell" id="shell">
+        <nav class="nav">
+            <a href="index.html" class="nav-item">首页</a>
+            <a href="jieshao.html" class="nav-item">介绍</a>
+            <a href="zhanjiejs.html" class="nav-item">章节介绍</a>
+            <a href="renwujs.html" class="nav-item">人物介绍</a>
+            <a href="chaorpduan.html" class="nav-item">登录</a>
+            <span class="nav-indicator"></span>
+        </nav>
+        <div class="header">
+            <h2 class="title">庆余年第二季</h2>
+            <h3 class="subtitle">孤臣之路，与光同尘</h3>
+        </div>
+        <div class="timeline">
+            <div class="item" data-text="“众生皆苦，可最不该苦的，是手无寸铁的普通人。”">
+                <div class="content">
+                    <img src="./img/31.jpg" alt="" class="img">
+                    <h2 class="content-title">底层苍生之殇</h2>
+                    <p class="content-desc">
+                        京都权贵子弟横行霸道，在抱月楼肆意施暴、草菅人命，酿成惊天惨案。
+                    普通百姓老金头千里赴京，只为见流落京都的女儿一面，却无辜卷入纷争，最终惨死乱世之中。
+                    一介底层平民的卑微离世，无人追责、无人问津，淋漓尽致揭露了庆国阶层固化、权贵当道、底
+                    层命如草芥的残酷现实。此事深深刺痛范闲，让他彻底坚定初心：不止自保，更要为底层苍生争
+                    公道、整肃朝堂吏治。
+                    </p>
+                </div>
+            </div>
+            <div class="item" data-text="“世间多不公，以血引雷霆…… 独善其身已是极限。”">
+                <div class="content">
+                    <img src="./img/32.jpg" alt="" class="img">
+                    <h2 class="content-title">手握实权，初心不改</h2>
+                    <p class="content-desc">
+                        历经多次朝堂博弈与危机，范闲凭借智谋与胆识，获庆帝默许、陈萍萍
+                        扶持，正式接管鉴查院一处。手握监察百官、查办冤案的实权，彻底拥
+                        有了立足京都、对抗权贵的资本。面对鉴查院积弊深重、官场沆瀣一气
+                        的乱象，范闲摒弃旧规、雷厉风行，打破官官相护的潜规则，秉公办案、
+                        整顿风气，在黑暗官场中坚守法度底线，悄然培植属于自己的正道力量。
+                    </p>
+                </div>
+            </div>
+            <div class="item" data-text="“做忠臣？太蠢。做奸臣？太累。我要做那掀桌子的人。”">
+                <div class="content">
+                    <img src="./img/33.jpg" alt="" class="img">
+                    <h2 class="content-title">逆流而上，不破不立</h2>
+                    <p class="content-desc">
+                        都察院固守旧规、迂腐僵化，一众御史依附权贵、趋炎附势，以 “礼法
+                        旧规” 束缚新政、构陷良臣。范闲推行公正法度、整顿乱象的举措，严
+                        重触碰了旧官僚集团的利益，由此与都察院展开多轮激烈对峙。朝堂辩
+                        论、案牍交锋、舆论博弈，范闲跳出封建礼法的桎梏，不循旧路、不随
+                        世俗，以通透清醒的姿态直面整个腐朽文官集团，尽显革新者的决绝与
+                        孤勇。
+                    </p>
+                </div>
+            </div>
+            <div class="item" data-text="“清流赴死，浊者横行，这朝堂，该变了。”">
+                <div class="content">
+                    <img src="./img/34.jpg" alt="" class="img">
+                    <h2 class="content-title">清流忠义，代价万千</h2>
+                    <p class="content-desc">
+                        都察院御史赖名成，是朝堂之中难得的清正清流。他刚正不阿、不畏强
+                        权，看不惯权贵结党营私、欺压百姓，屡次直言上书、死劾当朝权贵与
+                        官场弊政。奈何朝堂黑暗、权大于法，他的忠义直言触怒既得利益集团，
+                        最终被罗织罪名、含冤赐死。一代清官含冤而终，朝野震动，更让范闲
+                        彻底看清：庆国的病根从来不是个别贪官，而是腐朽固化的皇权体制，
+                        而追寻正义，从来都要付出血的代价。
+                    </p>
+                </div>
+            </div>
+            <div class="item" data-text="“这科举不公，百官舞弊，外面饿殍遍野，这边是朝堂党争，
+            这天下谁人不知？可是呢，还是一片寂静。如果这世间不公我也能忍，这圣贤书不就成了废纸一
+            堆？这世上，总要有人撞个头破血流。你看，如果我要是金榜题名，这血是不是溅得高些？这声
+            响是不是大些？这听到的人是不是多些？”">
+                <div class="content">
+                    <img src="./img/35.jpg" alt="" class="img">
+                    <h2 class="content-title">科场污浊，撕开黑幕</h2>
+                    <p class="content-desc">
+                        三年一度的春闱大比，本是寒门学子逆天改命、朝堂选拔贤才的公正
+                        之路，却被权贵世家暗箱操作、肆意践踏。朝野上下盘根错节的势力
+                        联手操纵考场、徇私舞弊，埋没寒门英才。范闲临危受命彻查此案，
+                        深陷皇子之争、世家博弈、朝堂站队的多方夹缝之中。他顶住层层施
+                        压与威逼利诱，不惧权贵、深挖到底，撕开了科举背后藏了数十年的
+                        肮脏黑幕，撼动了世家垄断仕途的根基。
+                    </p>
+                </div>
+            </div>
+            <div class="item" data-text="“世人皆道我大婚圆满，唯有我知，身处棋局，身不由己。”">
+                <div class="content">
+                    <img src="./img/36.jpg" alt="" class="img">
+                    <h2 class="content-title">红妆喜事，暗流汹涌</h2>
+                    <p class="content-desc">
+                        范闲与林婉儿历经种种阻碍，终得大婚。这场举国瞩目的盛世婚礼，
+                        表面琴瑟和鸣、喜庆圆满，是京都最盛大的喜事，实则是朝堂各方
+                        势力重新洗牌的关键节点。长公主、太子、二皇子、世家权贵各怀
+                        心思，借婚礼窥探局势、拉拢势力、布下新局。红妆之下暗藏刀光，
+                        喜乐之中藏尽算计，看似圆满的姻缘，终究深陷权谋棋局，为后续
+                        朝野大乱埋下重重伏笔。
+                    </p>
+                </div>
+            </div>
+            <div class="item" data-text="“身在高位，步步皆局，无人可信，亦无人敢信。”">
+                <div class="content">
+                    <img src="./img/37.jpg" alt="" class="img">
+                    <h2 class="content-title">惊天变局，君臣离心</h2>
+                    <p class="content-desc">
+                      金秋悬空庙赏菊盛会，朝野权贵齐聚一堂，看似太平盛世、君臣同乐，
+                      实则杀机暗藏。顶级刺客影子悄然潜伏、伺机而动，当众刺杀庆帝。
+                      危急关头，范闲不顾自身安危挺身护驾，身受重伤、九死一生。这场
+                      刺杀彻底打乱朝堂格局，庆帝借机清洗异己、拿捏朝局，同时也让范
+                      闲彻底看透庆帝的深沉心机与无情本性，君臣之间的猜忌与隔阂彻底
+                      爆发，二人看似和睦的君臣关系，彻底走向破裂。 
+                     </p>
+                </div>
+            </div> 
+            
+            <div class="item" data-text="“你身上流着朕的血，便注定逃不开这朝堂宿命。”">
+                <div class="content">
+                    <img src="./img/38.jpg" alt="" class="img">
+                    <h2 class="content-title">父子宿命，爱恨两难</h2>
+                    <p class="content-desc">
+                      随着层层迷雾被层层拨开，尘封数十年的终极秘密公之于众：范闲并
+                      非范建养子，而是庆帝与叶轻眉的亲生之子。这个惊天真相颠覆了所
+                      有人的认知，也彻底改写了范闲的一生。他与庆帝不再是简单的君臣，
+                      而是血脉相连、宿命对立的父子。一边是生养自己的帝王生父，一边
+                      是母亲含恨而终的血海深仇，亲情与仇恨、宿命与初心相互拉扯，让
+                      范闲彻底陷入两难绝境，朝堂处境瞬间凶险万分。
+                     </p>
+                </div>
+            </div>
+            <div class="item" data-text="“京都棋局已乱，江南前路未知，唯初心不改，一往无前。”">
+                <div class="content">
+                    <img src="./img/39.jpg" alt="" class="img">
+                    <h2 class="content-title">褪去稚气，独赴新局</h2>
+                    <p class="content-desc">
+                      身世真相大白、京都风波暂歇后，范闲主动接下重任，奉旨南下江南，
+                      全权接管内库产业。江南看似富庶太平，实则地方势力盘根错节、世
+                      家垄断财权、贪腐横行、乱象丛生。这既是庆帝对他的试探与制衡，
+                      也是范闲跳出京都困局、培植自身势力、推行革新理念的全新契机。
+                      褪去少年意气，背负苍生与执念，孤身南下，奔赴一场更艰难、更辽
+                      阔的乱世征途。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script>
+        (function ($) {
+            $.fn.timeline = function () {
+                var selectors = {
+                    id: $(this),
+                    item: $(this).find(".item"),
+                    activeClass: "item--active",
+                    img: ".img"
+                };
+                // 第一个条目默认激活，背景图取第一张图
+                selectors.item.eq(0).addClass(selectors.activeClass);
+                selectors.id.css(
+                    "background-image",
+                    "url(" + selectors.item.first().find(selectors.img).attr("src") + ")"
+                );
+                var itemLength = selectors.item.length;
+                // 页面滚动监听
+                $(window).scroll(function () {
+                    var max, min;
+                    var pos = $(this).scrollTop();
+                    selectors.item.each(function (i) {
+                        min = $(this).offset().top;
+                        max = $(this).height() + $(this).offset().top;
+                        var that = $(this);
+                        // 滚动到倒数第二个条目过半时，切换为最后一条
+                        if (i == itemLength - 2 && pos > min + $(this).height() / 2) {
+                            selectors.item.removeClass(selectors.activeClass);
+                            selectors.id.css(
+                                "background-image",
+                                "url(" + selectors.item.last().find(selectors.img).attr("src") + ")"
+                            );
+                            selectors.item.last().addClass(selectors.activeClass);
+                        }
+                        // 当前滚动区域匹配条目范围时激活当前项
+                        else if (pos <= max - 10 && pos >= min) {
+                            selectors.id.css(
+                                "background-image",
+                                "url(" + $(this).find(selectors.img).attr("src") + ")"
+                            );
+                            selectors.item.removeClass(selectors.activeClass);
+                            $(this).addClass(selectors.activeClass);
+                        }
+                    });
+                });
+            }
+        })(jQuery)
+        // 初始化时间轴插件
+        $("#shell").timeline();
+    </script>
+</body>
+</html>

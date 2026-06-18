@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>介绍</title>
+    <link rel="stylesheet" href="nav.css">
+    <link rel="stylesheet" href="lunbotu.css">
+    <link rel="stylesheet" href="jieshao.css">
+</head>
+
+<body>
+    <div class="middle">
+        <!-- 头部 -->
+        <div class="middle-top">
+            <nav class="nav">
+            <a href="index.html" class="nav-item">首页</a>
+            <a href="jieshao.html" class="nav-item">介绍</a>
+            <a href="zhanjiejs.html" class="nav-item">章节介绍</a>
+            <a href="renwujs.html" class="nav-item">人物介绍</a>
+            <a href="chaorpduan.html" class="nav-item">登录</a>
+                <span class="nav-indicator"></span>
+            </nav>
+
+
+        </div>
+        <!-- 轮播图 -->
+        <div class="container">
+            <div id="slide">
+                <div class="item" style="background-image: url('img/1.avif');">
+                    <div class="conyent">
+                        <div class="name">CHA VIEW</div>
+                        <div class="des">Thioshio hisuh uhuishi9,yuibsuiygb8sy bysyusb,ygsysu</div>
+                        <button>See more</button>
+                    </div>
+                </div>
+
+                <div class="item" style="background-image: url('img/2.avif');">
+                    <div class="conyent">
+                        <div class="name">CHA VIEW</div>
+                        <div class="des">Thioshio hisuh uhuishi9,yuibsuiygb8sy bysyusb,ygsysu</div>
+                        <button>See more</button>
+                    </div>
+                </div>
+
+
+
+                <div class="item" style="background-image: url('img/3.avif');">
+                    <div class="conyent">
+                        <div class="name">CHA VIEW</div>
+                        <div class="des">Thioshio hisuh uhuishi9,yuibsuiygb8sy bysyusb,ygsysu</div>
+                        <button>See more</button>
+                    </div>
+                </div>
+
+
+
+                <div class="item" style="background-image: url('img/4.avif');">
+                    <div class="conyent">
+                        <div class="name">CHA VIEW</div>
+                        <div class="des">Thioshio hisuh uhuishi9,yuibsuiygb8sy bysyusb,ygsysu</div>
+                        <button>See more</button>
+                    </div>
+                </div>
+
+
+
+                <div class="item" style="background-image: url('img/5.avif');">
+                    <div class="conyent">
+                        <div class="name">CHA VIEW</div>
+                        <div class="des">Thioshio hisuh uhuishi9,yuibsuiygb8sy bysyusb,ygsysu</div>
+                        <button>See more</button>
+                    </div>
+                </div>
+
+
+
+                <div class="item" style="background-image: url('img/6.avif');">
+                    <div class="conyent">
+                        <div class="name">CHA VIEW</div>
+                        <div class="des">Thioshio hisuh uhuishi9,yuibsuiygb8sy bysyusb,ygsysu</div>
+                        <button>See more</button>
+                    </div>
+                </div>
+
+            </div>
+            <div class="buttons">
+                <div class="s_buttton s_buttton-left">&lt;</div>
+                <div class="s_buttton s_buttton-right">&gt;</div>
+            </div>
+        </div>
+        <!-- 动漫人物介绍 -->
+        <div class="substance" id="myBox">
+            <div class="substances">
+                <h1>---------《庆余年》---------</h1>
+
+                <div class="substances-size">
+                    本剧改编自猫腻同名小说，以架空庆国为背景，采用戏中戏设定。现代青年范慎病逝后，灵魂穿越成澹州少年范闲，自幼由奶奶抚养，蒙眼护卫五竹与毒师费介传授武功、毒术。
+范闲看似户部尚书范建私生子，实则是传奇女子叶轻眉之子。叶轻眉曾以超前理念革新天下，却离奇身亡。为探寻母亲死因，范闲赴京都，卷入皇子争储、鉴查院博弈、南北两国纷争。他结识林婉儿，周旋于庆帝、陈萍萍等各方势力，一边化解刺杀暗算，一边追查尘封旧事。剧集融合权谋、江湖、温情与幽默，层层揭开皇权阴谋与神庙隐藏的惊天秘密。
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const substance = document.getElementById('myBox');
+
+            function isElementInViewport(el) {
+                const rect = el.getBoundingClientRect();
+                return (
+                    rect.top >= 0 &&
+                    rect.left >= 0 &&
+                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+                );
+            }
+
+            function handleScroll() {
+                if (isElementInViewport(substance)) {
+                    substance.classList.add('visible');
+                } else {
+                    substance.classList.remove('visible');
+                }
+            }
+
+            window.addEventListener('scroll', handleScroll);
+            // 初始检查，以防元素已经在视口中
+            handleScroll();
+        });
+    </script>
+</body>
+
+</html>
